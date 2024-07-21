@@ -70,14 +70,14 @@
         </div>
       </div>
     </nav>
-
+    <input type="text" />
     <div class="container mt-5 flex-grow-1">
       <div class="d-flex justify-content-between align-items-center mb-3">
         <h1 class="text-success">Recipes</h1>
         <button
           class="btn btn-success"
           data-toggle="modal"
-          data-target="#recipeModal"
+          data-target="#add-recipeModal"
         >
           <i class="fas fa-plus-circle"></i> Add New Recipe
         </button>
@@ -106,7 +106,7 @@
 
     <div
       class="modal fade"
-      id="recipeModal"
+      id="add-recipeModal"
       tabindex="-1"
       aria-labelledby="recipeModalLabel"
       aria-hidden="true"
@@ -125,7 +125,7 @@
             </button>
           </div>
           <div class="modal-body">
-            <form id="recipeForm">
+            <form id="add-recipeForm">
               <input type="hidden" id="recipeId" name="id" />
               <div class="form-group">
                 <label for="recipe_name">Recipe Name</label>
@@ -155,6 +155,65 @@
                 ></textarea>
               </div>
               <button type="submit" class="btn btn-success">
+                <i class="fas fa-save"></i> Save Recipe
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="modal fade"
+      id="edit-recipeModal"
+      tabindex="-1"
+      aria-labelledby="recipeModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="recipeModalLabel">edit Recipe</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form id="edit-recipeForm">
+              <input type="hidden" id="recipeId" name="id" />
+              <div class="form-group">
+                <label for="recipe_name">Recipe Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="recipe_name"
+                  name="recipe_name"
+                  placeholder="Enter recipe name"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="resturant-select">Restaurant</label>
+                <select class="form-control" id="resturant-select" required>
+                  <option value="">select resturant</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="details">Details</label>
+                <textarea
+                  class="form-control"
+                  id="details"
+                  name="details"
+                  placeholder="Enter recipe details"
+                  required
+                ></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary">
                 <i class="fas fa-save"></i> Save Recipe
               </button>
             </form>
