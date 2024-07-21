@@ -2,7 +2,7 @@ const restaurants_table = document.querySelector(".restaurants-table");
 // console.log(restaurants_table);
 const displayRestaurants = async () => {
   const response = await fetch(
-    "http://localhost/My_Projects/Restaurant-Recipe-Management-System-backend/restaurants/readall.php"
+    "http://localhost/Restaurant-Recipe-Management-System-backend/restaurants/readall.php"
   );
   const data = await response.json();
   data.restaurants.forEach((restaurant) => {
