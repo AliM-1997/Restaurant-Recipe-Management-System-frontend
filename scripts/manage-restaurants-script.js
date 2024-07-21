@@ -1,12 +1,12 @@
 const restaurants_table = document.querySelector(".restaurants-table");
-console.log(restaurants_table);
+// console.log(restaurants_table);
 const displayRestaurants = async () => {
   const response = await fetch(
     "http://localhost/My_Projects/Restaurant-Recipe-Management-System-backend/restaurants/readall.php"
   );
   const data = await response.json();
   data.restaurants.forEach((restaurant) => {
-    console.log(restaurant);
+    // console.log(restaurant);
     restaurants_table.innerHTML += `<tr id=${restaurant.id}>
     <td scope="col">${restaurant.name}</td>
     <td scope="col">${restaurant.location}</td>
