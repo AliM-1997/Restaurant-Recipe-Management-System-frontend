@@ -85,7 +85,7 @@
 
       <div class="table-container">
         <table class="table table-striped" id="add-recipes">
-          <thead>
+          <thead class="recipes-table">
             <tr>
               <th scope="col">Recipe Name</th>
               <th scope="col">Restaurant</th>
@@ -139,13 +139,8 @@
                 />
               </div>
               <div class="form-group">
-                <label for="restaurant_id">Restaurant</label>
-                <select
-                  class="form-control"
-                  id="restaurant_id"
-                  name="restaurant_id"
-                  required
-                >
+                <label for="resturant-select">Restaurant</label>
+                <select class="form-control" id="resturant-select" required>
                   <option value="">select resturant</option>
                 </select>
               </div>
@@ -169,6 +164,6 @@
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="recipe_script.js"></script>
+    <script src="manage-recipes.js"></script>
   </body>
 </html>
