@@ -1,4 +1,4 @@
-const select_resturant = document.getElementById("resturant-select");
+const select_resturant = document.querySelectorAll("#resturant-select");
 const recipes_table = document.querySelector(".recipes-table");
 
 const fetch_resturant = async () => {
@@ -9,9 +9,12 @@ const fetch_resturant = async () => {
   const data = await response.json();
 
   data.restaurants.forEach((restaurant) => {
-    select_resturant.innerHTML += `
+    select_resturant.forEach(
+      (select) =>
+        (select.innerHTML += `
       <option value=${restaurant.id}>${restaurant.name}</option>
-      `;
+      `)
+    );
   });
 };
 
@@ -34,21 +37,86 @@ const fetch_recipes = async () => {
   if (data.recipes === undefined) return;
 
   data.recipes.forEach((recipe) => {
-    recipes_table.innerHTML += `<tr>
-    <td scope="col">${recipe.name}</td>
-    <td scope="col">${recipe.resturant_name}</td>
+    recipes_table.innerHTML += `<tr id=recipe-${recipe.id}>
+    <td scope="col" id="recipe-name">${recipe.name}</td>
+    <td scope="col" id="rest-name">${recipe.resturant_name}</td>
     
-<td scope="col"><div style="width:21rem; height:4rem; overflow-y:auto;">${recipe.details}</div></td>
-    <td scope="col"><button class="btn-edit btn btn-primary btn-sm mr-3">Edit</button><button id=${recipe.id} class="btn-delete btn btn-danger btn-sm mr-3">Delete</button></td>
+<td scope="col"><div id="recipe-details" style="width:21rem; height:4rem; overflow-y:auto;">${recipe.details}</div></td>
+    <td scope="col"><button id=${recipe.id} class="btn btn-edit btn btn-primary btn-sm mr-3" data-toggle="modal" data-target="#edit-recipeModal">Edit</button><button id=${recipe.id} class="btn-delete btn btn-danger btn-sm mr-3">Delete</button></td>
     </tr>
     `;
   });
+  const edit_btn = document.querySelectorAll(".btn-edit");
 
+  edit_btn.forEach((btn) => {
+    btn.addEventListener("click", async (e) => {
+      const id_recipe = Number(e.target.getAttribute("id"));
+
+      const cur_recipe = document.getElementById(`recipe-${id_recipe}`);
+
+      const arr = [];
+
+      arr.push(cur_recipe.querySelector("#recipe-name").innerText);
+      arr.push(cur_recipe.querySelector("#rest-name").innerText);
+      arr.push(cur_recipe.querySelector("#recipe-details").innerText);
+
+      const edit_form = document.getElementById("edit-recipeForm");
+      //   console.log(edit_form);
+      const form_groups = edit_form.querySelectorAll(".form-group");
+
+      form_groups[0]
+        .querySelector("#recipe_name")
+        .setAttribute("value", arr[0]);
+
+      form_groups[2].querySelector("#details").innerText = arr[2];
+
+      console.log(form_groups[2]);
+
+      const edit_recipeForm = document.getElementById("edit-recipeForm");
+      edit_recipeForm.addEventListener("submit", async function (event) {
+        event.preventDefault();
+        const recipeName = edit_recipeForm.querySelector("#recipe_name").value;
+        const restaurantId = Number(
+          edit_recipeForm.querySelector("#resturant-select").value
+        );
+        const details = edit_recipeForm.querySelector("#details").value;
+
+        const recipeData = {
+          id: id_recipe,
+          resturant_id: restaurantId,
+          name: recipeName,
+          details: details,
+        };
+        console.log(recipeData);
+
+        try {
+          const respone = await fetch(
+            "http://localhost/Restaurant-Recipe-Management-System-backend/recipes/update_recipe.php",
+            {
+              method: "POST",
+              headers: {
+                "content-Type": "application/json",
+              },
+              body: JSON.stringify(recipeData),
+            }
+          );
+          if (!respone) {
+            console.log("no response from fetching");
+          }
+          const data = await respone.json();
+          console.log(data);
+        } catch (error) {
+          console.error(error.message);
+        }
+      });
+    });
+  });
   const delete_btns = document.querySelectorAll(".btn-delete");
 
   delete_btns.forEach((btn) => {
     btn.addEventListener("click", async (e) => {
       const id_recipe = Number(e.target.getAttribute("id"));
+      console.log(id_recipe);
       try {
         const response = await fetch(
           "http://localhost/Restaurant-Recipe-Management-System-backend/recipes/delete_recipe.php",
@@ -75,7 +143,7 @@ const fetch_recipes = async () => {
 };
 
 fetch_recipes();
-
+const recipeForm = document.getElementById("add-recipeForm");
 recipeForm.addEventListener("submit", async function (event) {
   event.preventDefault();
 
@@ -90,6 +158,7 @@ recipeForm.addEventListener("submit", async function (event) {
     name: recipeName,
     details: details,
   };
+  console.log(recipeData);
 
   try {
     const response = await fetch(
