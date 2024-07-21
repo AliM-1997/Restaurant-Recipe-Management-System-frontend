@@ -1,6 +1,6 @@
 const restaurants_table = document.querySelector(".restaurants-table");
 console.log(restaurants_table);
-const fetchData = async () => {
+const displayRestaurants = async () => {
   const response = await fetch(
     "http://localhost/My_Projects/Restaurant-Recipe-Management-System-backend/restaurants/readall.php"
   );
@@ -16,4 +16,4 @@ const fetchData = async () => {
   });
 };
 
-fetchData();
+displayRestaurants();
